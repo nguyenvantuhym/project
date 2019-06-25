@@ -1,5 +1,5 @@
 import React from 'react';
-import Link from 'next/link';
+//import Link from 'next/link';
 import axios from 'axios';
 import Router from 'next/router';
 import Nav from './../../components/nav';
@@ -8,31 +8,33 @@ import { Icon, Label, Menu, Table, Container, Form,Button, Header, Modal} from '
 export default class user extends React.Component {
 
 		state = {
-			listUser:[],
-			user:{},
-			modalOpen:false
+			listCustomer:[{
+        username :"vantu",
+        std:"03567224563",
+        email:"vantu",
+        localtion:"vantu"
+      },{
+        username :"vantu",
+        email:"vantu",
+        std:"03567224563",
+        localtion:"vantu"
+      }],
+			customer:{
+      username :"vantu",
+      email:"vantu",
+      std:"03567224563",
+      localtion:"vantu"},
+
     }
-    componentDidMount = async()=>{
-      let res = await axios( {
-          method:'get',
-          url:'/api/getalluser'
-      } );
-      if( res.data.success ===true )
-          this.setState( {...this.state,listUser: res.data.data} );
-      else
-      {
-          Router.push( "/" );
-      }
-      console.log(res.data);
-  }
+
 		closeConfigShowEdit = ( closeOnEscape, closeOnDimmerClick, index ) => () => {
 			this.setState({
         ...this.state,
         closeOnEscape,
         closeOnDimmerClick,
         modalOpenEdit: true,
-        indexUser:index,
-        user: this.state.listUser[index]
+        indexCustomer:index,
+        user: this.state.listCustomer[index]
       });
     }
 
@@ -52,8 +54,8 @@ export default class user extends React.Component {
         closeOnEscape,
         closeOnDimmerClick,
         modalOpenDelete: true,
-        indexUser:index,
-        user: this.state.listUser[index]
+        indexCustomer:index,
+        user: this.state.listCustomer[index]
       });
     }
 
@@ -64,7 +66,7 @@ export default class user extends React.Component {
 
 
 				const ls = ['van tu','duy manh'];
-				return {listuser:ls};
+				return {listCustomer:ls};
 
 		}
 		updateState = async ()=>{
@@ -72,23 +74,23 @@ export default class user extends React.Component {
 			console.log("test");
 			this.setState({
 				...this.state,
-				listUser:[
-					...this.state.listUser.slice(0,this.state.indexUser),
+				listCustomer:[
+					...this.state.listCustomer.slice(0,this.state.indexCustomer),
 					{
-						...this.state.user
+						...this.state.customer
 					},
-					...this.state.listUser.slice(this.state.indexUser + 1)
+					...this.state.listCustomer.slice(this.state.indexCustomer + 1)
         ],
         modalOpenEdit:false
       });
       //post server
-      console.log(this.state.user);
+      /*console.log(this.state.user);
       const res = await axios({
         method:'post',
         url: '/updateuser',
         data: this.state.user
       });
-      console.log(res);
+      console.log(res);*/
 
 		}
 
@@ -96,10 +98,10 @@ export default class user extends React.Component {
       console.log(this.state);
       this.setState({
         ...this.state,
-        listUser:[
-					...this.state.listUser.slice(0,this.state.indexUser),
+        listCustomer:[
+					...this.state.listCustomer.slice(0,this.state.indexCustomer),
 
-					...this.state.listUser.slice(this.state.indexUser + 1)
+					...this.state.listCustomer.slice(this.state.indexCustomer + 1)
         ],
         modalOpenDelete:false
       })
@@ -115,7 +117,7 @@ export default class user extends React.Component {
         localtion :event.target.elements.localtion.value
       }
 
-      const res =  await axios({
+     /* const res =  await axios({
         method:'post',
         url: '/api/signup',
         data: datasubmit
@@ -123,14 +125,14 @@ export default class user extends React.Component {
       console.log(res);
       if(res.data.success === true)
       this.setState({
-        listUser:[...this.state.listUser,{...res.data.data}]
-      });
+        listCustomer:[...this.state.listCustomer,{...res.data.data}]
+      });*/
 
     }
 
     handleChange = (field) => {
       return (value) => {
-        this.setState( {user:{ ...this.state.user,[field]: value.target.value} } )
+        this.setState( {customer:{ ...this.state.customer,[field]: value.target.value} } )
       }
     }
 		render() {
@@ -138,31 +140,35 @@ export default class user extends React.Component {
 				<div>
 						<Nav activeItem="manager"/>
 						<Container style={ { marginTop: '7em' } }>
-								<h2>Danh sách nhân viên đang quản lý</h2>
+								<h2>Danh sách Khach Hang đang quản lý</h2>
 								<Table celled>
 										<Table.Header>
 												<Table.Row>
 														<Table.HeaderCell>Họ Và Tên</Table.HeaderCell>
 														<Table.HeaderCell>email</Table.HeaderCell>
-														<Table.HeaderCell>Địa Chỉ</Table.HeaderCell>
+                            <Table.HeaderCell>Địa Chỉ</Table.HeaderCell>
+                            <Table.HeaderCell>SDT</Table.HeaderCell>
 												</Table.Row>
 										</Table.Header>
 
 										<Table.Body>
 
 								{
-										this.state.listUser.map( ( user,i )=>{
+										this.state.listCustomer.map( ( customer,i )=>{
 
 												return(
 														<Table.Row key={i}>
 																<Table.Cell>
-															{user.username}
+															{customer.username}
 																</Table.Cell>
 																<Table.Cell>
-																	{user.email}
+																	{customer.email}
 																</Table.Cell>
 																<Table.Cell>
-																		{user.localtion}
+																		{customer.localtion}
+                                </Table.Cell>
+                                <Table.Cell>
+																		{customer.std}
 																</Table.Cell>
 																<Table.Cell collapsing>
 																<Button onClick={this.closeConfigShowEdit(false, true, i)}>edit</Button>
@@ -177,8 +183,9 @@ export default class user extends React.Component {
 									</Table.Body>
 
 												<Table.Footer>
-												<Table.Row>
-														<Table.HeaderCell colSpan='3'>
+                        <Table.Row>
+
+														<Table.HeaderCell colSpan='5'>
 														<Menu floated='right' pagination>
 																<Menu.Item as='a' icon>
 																<Icon name='chevron left' />
@@ -211,23 +218,30 @@ export default class user extends React.Component {
 											<Form.Field>
 												<label>Tai khoan</label>
 												<input placeholder='First Name'
-													value={this.state.user.username}
+													value={this.state.customer.username}
 													onChange={this.handleChange('username')}
 												/>
 											</Form.Field>
 											<Form.Field>
 												<label>Email</label>
 												<input placeholder='Last Name'
-													value={this.state.user.email}
+													value={this.state.customer.email}
 													onChange={this.handleChange('email')}
 												/>
 											</Form.Field>
 											<Form.Field>
 											<label>dia chi</label>
 											<input placeholder='Last Name'
-												value={this.state.user.localtion}
+												value={this.state.customer.localtion}
 												onChange={this.handleChange('localtion')}
 											/>
+                      </Form.Field>
+                      <Form.Field>
+                        <label>SDT</label>
+                        <input placeholder='Last Name'
+                          value={this.state.customer.std}
+                          onChange={this.handleChange('std')}
+                        />
 											</Form.Field>
 										</Form>
 									</Modal.Content>
@@ -280,7 +294,7 @@ export default class user extends React.Component {
                   <Form.Field>
                     <label>Tai khoan</label>
                     <input placeholder='First Name'
-                      value={this.state.user.username}
+                      value={this.state.customer.username}
                       name="username"
                       //onChange={this.handleChange('username')}
                     />
@@ -288,7 +302,7 @@ export default class user extends React.Component {
                   <Form.Field>
                     <label>Email</label>
                     <input placeholder='Last Name'
-                      value={this.state.user.email}
+                      value={this.state.customer.email}
                       name="email"
                       //onChange={this.handleChange('email')}
                     />
@@ -296,7 +310,7 @@ export default class user extends React.Component {
                   <Form.Field>
                     <label>password Mac dinh</label>
                     <input placeholder='Last Name'
-                      value={this.state.user.localtion}
+                      value={this.state.customer.localtion}
                       name="password"
                       //onChange={this.handleChange('localtion')}
                     />
@@ -304,7 +318,7 @@ export default class user extends React.Component {
                   <Form.Field>
                     <label>Ho va ten</label>
                     <input placeholder='Last Name'
-                      value={this.state.user.localtion}
+                      value={this.state.customer.localtion}
                       name="name"
                       //onChange={this.handleChange('localtion')}
                     />
@@ -312,7 +326,7 @@ export default class user extends React.Component {
                   <Form.Field>
                     <label>dia chi</label>
                     <input placeholder='Last Name'
-                      value={this.state.user.localtion}
+                      value={this.state.customer.localtion}
                       name="localtion"
                       //onChange={this.handleChange('localtion')}
                     />

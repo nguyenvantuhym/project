@@ -16,16 +16,16 @@ class Database {
 
     async _connect()
     {
-        const URL = `mongodb+srv://admin:admin@cluster0-kwozd.mongodb.net/training?retryWrites=true&w=majority`; 
+        const URL = `mongodb+srv://admin:admin@cluster0-kwozd.mongodb.net/training?retryWrites=true&w=majority`;
         await  mongoose.connect(URL,{ useNewUrlParser: true })
         .then((err,client)=>{
-                
+
                 console.log('Database connection successful');
             })
         .catch((err)=>console.log('Database connection error!!' + err));
 
     }
-    
+
 
 
     async newAccount(ctx,next)
@@ -35,7 +35,7 @@ class Database {
         let accountExist = await User.findOne({username});
         if(accountExist)
         {
-            console.log('error username exist');
+
             ctx.body ={
                 success:false,
                 message:"tai khoan da ton tai"
@@ -44,29 +44,62 @@ class Database {
 
         }
 
-        
+
 
         let hash = await bcrypt.hash(dataSignup.password, saltRounds);
 
         if(hash) {
-            let newUser = User({...dataSignup, password:hash});
-                
+
+            let newUser = User({...dataSignup, password:hash, roles:'user',author:ctx.state.username});
+
             newUser.save();
-            ctx.state.user =newUser;
+            ctx.state.user = newUser;
             await next();
-            /*ctx.body = { 
+            ctx.body = {
                 success:true,
-                data:newUser._id
-            };*/
-            
-            
+                data:newUser
+            };
+
+
         }
-        
+
+    }
+    async updateuser(ctx,next)
+    {
+      if(ctx.state.rules === 'boss')
+      {
+        let data = ctx.request.body;
+        //console.log(ctx.request.body);
+        let result = await User.updateOne({ _id : data._id },
+          {
+            $set: {
+              username: data.username,
+              email: data.email,
+              localtion: data.localtion
+            }
+          }
+        );
+
+        if(result)
+        {
+          //console.log("vao day true");
+          ctx.state.db = {success:true};
+        }
+        else{
+
+          ctx.state.db = {success:false};
+        }
+      }
+      else {
+
+        ctx.state.db = {success:false};
+      }
+
     }
 
     async getalluser(ctx,next)
     {
-        if(ctx.state.rules ==='boss')
+        if(ctx.state.roles ==='boss')
         {
             console.log(ctx.state.username);
             ctx.state.data = await User.find({author:ctx.state.username});

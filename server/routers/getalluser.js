@@ -10,8 +10,9 @@ const router = new Router();
 router.get('/api/getalluser',auth, async (ctx,next)=>{
     if(ctx.state.success === true){
         await next();
-        if(ctx.state.data)
+        if(ctx.state.roles === 'boss')
         {
+
             console.log(ctx.state.data);
             ctx.body = {
                 success:true,
@@ -24,13 +25,13 @@ router.get('/api/getalluser',auth, async (ctx,next)=>{
                 success:false
             };
         }
-       
+
     }
-   console.log("false");
+
     ctx.body = {
             success:false,
         }
-    
+
 
 },database.getalluser);
 

@@ -10,14 +10,17 @@ const Router = require('koa-router');
 const router = new Router();
 router.get('/api/checklogin',auth, async (ctx)=>{
     if(ctx.state.success === true){
-        ctx.body = {success:true};
+        ctx.body = {
+          success:true,
+          roles:ctx.state.roles
+        };
     }
     else{
         ctx.body = {success:false};
     }
 });
 
-router.post('/api/signup', database.newAccount,generateToken);
+router.post('/api/signup',auth, database.newAccount);
 
 router.post('/api/signin',async (ctx,next)=>{
 
@@ -28,11 +31,11 @@ router.post('/api/signin',async (ctx,next)=>{
     if(accountExist)
     {
         let compa = await bcrypt.compare(dataSignin.password, accountExist.password);
-        if(compa === true) 
+        if(compa === true)
         {
             ctx.state.user = accountExist;
             await next();
-            
+
         }
         else{
             ctx.body = {

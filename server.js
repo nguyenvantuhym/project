@@ -10,6 +10,7 @@ const KeyGrip = require( 'keygrip' );
 const userRouter = require( './server/routers/user' );
 
 const authRouter = require( './server/routers/auth.router' );
+const manageUserRouter = require('./server/routers/manageUser');
 const getalluserRouter = require( './server/routers/getalluser' );
 
 dotenv.config();
@@ -27,6 +28,8 @@ server.use( koaBody() );
 server.use( userRouter.routes() );
 server.use( authRouter.routes() );
 server.use( getalluserRouter.routes() );
+server.use( manageUserRouter.routes() );
+
 //
 const nextApp = next( { dev: true } );
 const handler = nextApp.getRequestHandler();
