@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
-import Css from './css'
+
 import axios from 'axios';
 import { Input, Menu, Container } from 'semantic-ui-react'
 
@@ -29,7 +29,7 @@ export default class Nav extends Component {
 
 		return (
 			<div>
-				<Css/>
+
 			<Menu inverted>
 				<Container>
 					<Link href="/">

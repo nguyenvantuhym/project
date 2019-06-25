@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
 import axios from 'axios'
-import Css from './../components/css';
+
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
 
 class LoginForm extends React.Component {
@@ -17,7 +17,7 @@ class LoginForm extends React.Component {
    this.changeUsername = this.changeUsername.bind(this)
    this.changePassWord = this.changePassWord.bind(this);
    this.submitData = this.submitData.bind(this);
-   
+
  }
   componentDidMount = async()=>{
     let res = await axios({
@@ -35,8 +35,8 @@ class LoginForm extends React.Component {
   {
     return(
       (event)=>{
-        
-        
+
+
         this.setState({
           ...this.state,
           username:event.target.value
@@ -49,8 +49,8 @@ class LoginForm extends React.Component {
   {
     return(
       (event)=>{
-        
-        
+
+
         this.setState({
           ...this.state,
           password:event.target.value
@@ -61,7 +61,7 @@ class LoginForm extends React.Component {
   }
   submitData()
   {
-   
+
     if(this.state.username !== '' && this.state.password !== '')
     {
 
@@ -82,7 +82,7 @@ class LoginForm extends React.Component {
             message:"Mật khẩu và tài khoản không chính xác!!"
           })
         }
-        
+
       });
     }
   }
@@ -90,7 +90,7 @@ class LoginForm extends React.Component {
   render(){
   return(
     <div>
-     <Css/>
+
       <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
         <Grid.Column style={{ maxWidth: 450 }}>
           <Header as='h2' color='teal' textAlign='center'>
@@ -101,13 +101,13 @@ class LoginForm extends React.Component {
           </Header>
           <Form size='large'>
             <Segment stacked>
-              <Form.Input 
-              fluid 
-              icon='user' 
-              iconPosition='left' 
-              placeholder='E-mail address' 
+              <Form.Input
+              fluid
+              icon='user'
+              iconPosition='left'
+              placeholder='E-mail address'
               onChange={this.changeUsername()}
-              value={this.state.username} 
+              value={this.state.username}
               />
 
               <Form.Input

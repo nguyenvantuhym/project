@@ -58,45 +58,41 @@ export default class user extends React.Component {
 
 								{
 										this.state.listUser.map((user,i)=>{
+											let variableState = {...user};
 												return(
 														<Table.Row key={i}>
 																<Table.Cell>
 															{user.username}
 																</Table.Cell>
 																<Table.Cell>
-                                  {user.email}
-                                </Table.Cell>
+																	{user.email}
+																</Table.Cell>
 																<Table.Cell>
 																		{user.localtion}
 																</Table.Cell>
 																<Table.Cell collapsing>
 
-                                  <Modal trigger={<Label color="red">edit</Label>}>
-                                    <Header icon='archive' content='Archive Old Messages' />
-                                    <Modal.Content>
-                                      <p>
-                                        Your inbox is getting full, would you like us to enable automatic archiving of old messages?
-                                      </p>
-                                    </Modal.Content>
-                                    <Modal.Actions>
-                                      <Form>
-                                        <Form.Field>
-                                        {user.username}
-                                          <input placeholder='First Name' />
-                                        </Form.Field>
-                                        <Form.Field>
-                                          <label>{user.email}</label>
-                                          <input placeholder='Last Name' />
-                                        </Form.Field>
-                                        <Form.Field>
-                                        <label>{user.localtion}</label>
-                                          <input placeholder='Last Name' />
-                                        </Form.Field>
-                                        <Button type='submit' >Submit</Button>
-                                      </Form>
-                                    </Modal.Actions>
-                                  </Modal>
-                                </Table.Cell>
+																	<Modal trigger={<Label color="red">edit</Label>}>
+																		<Header icon='archive' content='Cập Nhật' />
+																		<Modal.Actions>
+																			<Form>
+																				<Form.Field>
+																				<label>{variableState.username}</label>
+																					<input placeholder='First Name' value={variableState.username} />
+																				</Form.Field>
+																				<Form.Field>
+																					<label>{variableState.email}</label>
+																					<input placeholder='Last Name' value={variableState.email}/>
+																				</Form.Field>
+																				<Form.Field>
+																				<label>{variableState.localtion}</label>
+																					<input placeholder='Last Name' value={variableState.localtion}/>
+																				</Form.Field>
+																				<Button type='submit'>Cập Nhật</Button>
+																			</Form>
+																		</Modal.Actions>
+																	</Modal>
+																</Table.Cell>
 
 														</Table.Row>
 												)
