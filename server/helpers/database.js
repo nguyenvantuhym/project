@@ -66,10 +66,10 @@ class Database {
     }
     async updateuser(ctx,next)
     {
-      if(ctx.state.rules === 'boss')
+      if(ctx.state.roles === 'boss')
       {
         let data = ctx.request.body;
-        //console.log(ctx.request.body);
+        console.log(ctx.request.body);
         let result = await User.updateOne({ _id : data._id },
           {
             $set: {
@@ -79,7 +79,7 @@ class Database {
             }
           }
         );
-
+          console.log(result);
         if(result)
         {
           //console.log("vao day true");
