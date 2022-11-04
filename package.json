@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "file-loader": "^3.0.1",
-    "semantic-ui": "^2.4.2",
+    "semantic-ui": "^2.5.0",
     "url-loader": "^1.1.2"
   }
 }
